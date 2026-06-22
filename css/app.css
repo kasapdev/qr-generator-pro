@@ -1,0 +1,163 @@
+/* =====================================================================
+   QR Generator Pro — app.css
+   App-specific styles. Colors come exclusively from base.css tokens
+   so both dark and light themes work without overrides.
+   ===================================================================== */
+
+/* Theme toggle: show only the relevant icon */
+.icon-moon { display: none; }
+[data-theme="light"] .icon-sun { display: none; }
+[data-theme="light"] .icon-moon { display: inline; }
+
+/* ---------------------------- Hero ---------------------------- */
+.hero { max-width: 720px; margin-bottom: var(--space-8); }
+.hero h1 { margin-bottom: var(--space-3); }
+.hero p { color: var(--text-secondary); font-size: clamp(.95rem, .9rem + .3vw, 1.08rem); margin: 0; }
+
+/* ---------------------------- Layout grid ---------------------------- */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+.layout .col { gap: var(--space-6); }
+
+.panel-title { font-size: 1.02rem; margin: 0 0 var(--space-4); }
+
+/* ---------------------------- Type tabs ---------------------------- */
+.type-tabs {
+  display: flex;
+  width: 100%;
+  margin-bottom: var(--space-5);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.type-tabs::-webkit-scrollbar { display: none; }
+.type-tabs button { flex: 1 0 auto; }
+
+/* ---------------------------- Fields ---------------------------- */
+.fields { display: flex; flex-direction: column; gap: var(--space-4); }
+.fields .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.fields .field textarea { min-height: 120px; }
+
+/* ---------------------------- Options ---------------------------- */
+.opt-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5) var(--space-4);
+}
+.color-row { display: flex; align-items: center; gap: var(--space-3); }
+input[type=color] {
+  -webkit-appearance: none; appearance: none;
+  width: 46px; height: 40px; flex: none; padding: 0;
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: transparent; cursor: pointer;
+  transition: border-color var(--dur-1), box-shadow var(--dur-1);
+}
+input[type=color]:hover { border-color: var(--border-strong); }
+input[type=color]:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(99,102,241,.4); }
+input[type=color]::-webkit-color-swatch-wrapper { padding: 4px; }
+input[type=color]::-webkit-color-swatch { border: none; border-radius: 7px; }
+input[type=color]::-moz-color-swatch { border: none; border-radius: 7px; }
+.hex-input { text-transform: uppercase; }
+.opt-foot { margin-top: var(--space-5); gap: var(--space-3); }
+
+/* ---------------------------- Preview ---------------------------- */
+.preview-panel { position: sticky; top: 84px; }
+.preview-head { margin-bottom: var(--space-5); }
+
+.preview-stage {
+  position: relative;
+  display: grid; place-items: center;
+  min-height: 320px;
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background:
+    var(--gradient-brand-soft),
+    repeating-conic-gradient(var(--surface-3) 0% 25%, transparent 0% 50%) 50% / 22px 22px;
+  border: 1px solid var(--border);
+}
+.qr-frame {
+  background: #fff;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  line-height: 0;
+  transition: transform var(--dur-2) var(--ease);
+  animation: qrPop .4s var(--ease) both;
+}
+.qr-frame:hover { transform: translateY(-2px) scale(1.01); }
+@keyframes qrPop { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+#qrCanvas {
+  display: block;
+  width: 260px; height: 260px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  border-radius: 4px;
+}
+.preview-empty { position: absolute; inset: 0; display: grid; place-content: center; margin: 0; }
+
+/* Encoded data preview */
+.encoded-row { margin-top: var(--space-5); }
+.encoded {
+  display: block;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  max-height: 80px; overflow: auto;
+  word-break: break-all;
+}
+.actions { margin-top: var(--space-5); }
+
+/* ---------------------------- History ---------------------------- */
+.history-panel { margin-top: var(--space-8); }
+.history-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-4);
+}
+.history-card {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  text-align: left;
+  padding: var(--space-3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: transform var(--dur-1) var(--ease), border-color var(--dur-1), box-shadow var(--dur-2), background var(--dur-1);
+  font: inherit; color: inherit;
+}
+.history-card:hover { transform: translateY(-2px); border-color: var(--border-strong); box-shadow: var(--shadow-md); background: var(--surface-2); }
+.history-card:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(99,102,241,.4); }
+.history-card .thumb {
+  width: 100%; aspect-ratio: 1; border-radius: var(--radius-sm);
+  background: #fff; display: grid; place-items: center; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.history-card .thumb canvas { width: 100%; height: 100%; image-rendering: pixelated; }
+.history-card .h-type { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--brand-400); }
+.history-card .h-label { font-size: 12.5px; color: var(--text-secondary); }
+.history-card .h-date { font-size: 11px; color: var(--text-muted); }
+
+/* ---------------------------- Shortcut modal ---------------------------- */
+.shortcut-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.shortcut-list li { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+.shortcut-list .desc { color: var(--text-secondary); font-size: 14px; }
+.shortcut-list .keys { display: inline-flex; gap: 6px; flex: none; }
+
+/* ---------------------------- Responsive ---------------------------- */
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .preview-panel { position: static; }
+  .preview-col { order: -1; } /* show preview first on stacked layout */
+}
+@media (max-width: 560px) {
+  .opt-grid { grid-template-columns: 1fr; }
+  .fields .field-row { grid-template-columns: 1fr; }
+  #qrCanvas { width: 220px; height: 220px; }
+  .type-tabs button { flex: 1 0 auto; padding: 8px 12px; }
+}

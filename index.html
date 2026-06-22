@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08090d">
+  <meta name="description" content="Generate beautiful, customizable QR codes for links, text, email, phone, SMS and WiFi. Export crisp PNG and scalable SVG â€” all offline.">
+  <title>QR Generator Pro â€” Web Utility Suite</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar container">
+    <a class="brand" href="https://github.com/kasapdev/web-utility-suite" aria-label="Back to Web Utility Suite">
+      <span class="logo" aria-hidden="true">
+        <!-- QR code icon -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+          <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+          <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+          <path d="M14 14h3v3"></path>
+          <path d="M21 14v7h-7"></path>
+          <path d="M17 21v.01"></path>
+        </svg>
+      </span>
+      <span class="col" style="gap:0">
+        <span>QR Generator Pro</span>
+        <span class="sub">Web Utility Suite</span>
+      </span>
+    </a>
+    <span class="spacer"></span>
+    <button class="btn btn--icon" data-shortcut-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+        <path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h.01M18 14h.01M10 14h4"></path>
+      </svg>
+    </button>
+    <button class="btn btn--icon" data-theme-toggle title="Toggle theme" aria-label="Toggle theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </header>
+
+  <main class="container">
+    <section class="hero fade-in">
+      <h1>Beautiful <span class="gradient-text">QR codes</span>, instantly.</h1>
+      <p class="secondary">Encode links, text, email, phone, SMS and WiFi credentials. Tune colors, error correction and quiet zone, then export crisp PNG or scalable SVG â€” 100% offline.</p>
+    </section>
+
+    <div class="layout">
+      <!-- ============ Left: builder ============ -->
+      <div class="col builder rise">
+        <div class="panel">
+          <div class="segmented type-tabs" role="tablist" aria-label="QR content type">
+            <button role="tab" class="is-active" data-type="url" aria-selected="true">URL</button>
+            <button role="tab" data-type="text" aria-selected="false">Text</button>
+            <button role="tab" data-type="email" aria-selected="false">Email</button>
+            <button role="tab" data-type="phone" aria-selected="false">Phone</button>
+            <button role="tab" data-type="sms" aria-selected="false">SMS</button>
+            <button role="tab" data-type="wifi" aria-selected="false">WiFi</button>
+          </div>
+
+          <!-- Dynamic fields render here -->
+          <div id="fields" class="fields" role="tabpanel" aria-label="Content fields"></div>
+        </div>
+
+        <!-- ============ Options ============ -->
+        <div class="panel options">
+          <h2 class="panel-title">Design options</h2>
+          <div class="opt-grid">
+            <div class="field">
+              <label for="ec">Error correction</label>
+              <select id="ec" aria-describedby="ec-hint">
+                <option value="L">Low â€” L (7%)</option>
+                <option value="M" selected>Medium â€” M (15%)</option>
+                <option value="Q">Quartile â€” Q (25%)</option>
+                <option value="H">High â€” H (30%)</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="margin">Quiet-zone margin <span id="marginVal" class="muted mono">4</span></label>
+              <input type="range" id="margin" min="0" max="16" step="1" value="4" aria-describedby="margin-hint">
+            </div>
+
+            <div class="field">
+              <label for="fg">Foreground</label>
+              <div class="color-row">
+                <input type="color" id="fg" value="#0c0e1a" aria-label="Foreground color">
+                <input type="text" id="fgHex" class="mono hex-input" value="#0C0E1A" maxlength="7" spellcheck="false" aria-label="Foreground hex">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="bg">Background</label>
+              <div class="color-row">
+                <input type="color" id="bg" value="#ffffff" aria-label="Background color">
+                <input type="text" id="bgHex" class="mono hex-input" value="#FFFFFF" maxlength="7" spellcheck="false" aria-label="Background hex">
+              </div>
+            </div>
+          </div>
+          <div class="opt-foot row center wrap between">
+            <span class="badge" id="contrastBadge" title="WCAG-style contrast between foreground and background">Contrast OK</span>
+            <button class="btn btn--sm btn--ghost" id="swapColors" type="button" title="Swap foreground and background">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 16V4M7 4 3 8M7 4l4 4M17 8v12M17 20l4-4M17 20l-4-4"></path></svg>
+              Swap
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ Right: preview ============ -->
+      <div class="col preview-col rise" style="animation-delay:.06s">
+        <div class="panel preview-panel">
+          <div class="preview-head row between center">
+            <h2 class="panel-title" style="margin:0">Preview</h2>
+            <span class="badge badge--info" id="sizeReadout">â€” Ã— â€”</span>
+          </div>
+
+          <div class="preview-stage" id="stage">
+            <div class="qr-frame" id="qrFrame">
+              <canvas id="qrCanvas" width="300" height="300" role="img" aria-label="QR code preview"></canvas>
+            </div>
+            <div class="empty preview-empty" id="previewEmpty" hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                <path d="M14 14h3v3M21 14v7h-7"></path>
+              </svg>
+              <p>Enter some content to generate your QR code.</p>
+            </div>
+          </div>
+
+          <div class="encoded-row" id="encodedRow" hidden>
+            <code class="encoded mono" id="encodedText"></code>
+          </div>
+
+          <div class="actions row wrap gap-3">
+            <button class="btn btn--primary flex-1" id="dlPng">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
+              PNG
+            </button>
+            <button class="btn flex-1" id="dlSvg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
+              SVG
+            </button>
+            <button class="btn btn--icon" id="copyData" title="Copy encoded data" aria-label="Copy encoded data">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ History ============ -->
+    <section class="panel history-panel rise" style="animation-delay:.12s">
+      <div class="row between center wrap" style="margin-bottom:var(--space-4)">
+        <h2 class="panel-title" style="margin:0">Recent codes</h2>
+        <button class="btn btn--sm btn--ghost" id="clearHistory" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path></svg>
+          Clear all
+        </button>
+      </div>
+      <div id="historyList" class="history-list"></div>
+      <div class="empty" id="historyEmpty">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8v4l3 3"></path><circle cx="12" cy="12" r="9"></circle></svg>
+        <p>Your generated codes will appear here.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer container">Part of the <a href="https://github.com/kasapdev/web-utility-suite">Web Utility Suite</a> Â· MIT Licensed</footer>
+
+  <!-- ============ Shortcuts help modal ============ -->
+  <div class="modal-backdrop" id="helpModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <div class="row between center" style="margin-bottom:var(--space-4)">
+        <h2 id="helpTitle" style="margin:0">Keyboard shortcuts</h2>
+        <button class="btn btn--icon btn--ghost" id="helpClose" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <ul class="shortcut-list" id="shortcutList"></ul>
+    </div>
+  </div>
+
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/qrcode.lib.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
