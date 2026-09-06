@@ -14,13 +14,14 @@ It is built with plain HTML5, CSS3 and vanilla ES6+ JavaScript. No frameworks, n
 
 ## Features
 
-- **Six content types** with smart, type-specific fields:
+- **Seven content types** with smart, type-specific fields:
   - **URL** — auto-prepends `https://` for bare domains.
   - **Text** — encode any free-form text.
   - **Email** — builds a `mailto:` link with optional subject and body.
   - **Phone** — builds a `tel:` link.
   - **SMS** — builds an `sms:` link with an optional pre-filled message.
   - **WiFi** — generates a `WIFI:` payload (WPA/WEP/open, hidden flag) with correct escaping of special characters so phones can join in one tap.
+  - **Contact** — generates a `MECARD:` contact card (name, phone, email, organization, website) that phones offer to save straight to contacts when scanned.
 - **Live preview** rendered onto a real `<canvas>` from the module matrix for pixel-crisp, color-accurate results.
 - **Design controls** — error-correction level (L / M / Q / H), foreground & background color pickers with synced hex inputs, an adjustable quiet-zone margin, a one-click color swap, and a contrast check that warns when a code may not scan.
 - **High-resolution PNG export** rendered offscreen at 1024px.
@@ -44,7 +45,7 @@ Then simply open `index.html` in any modern browser (double-click it, or use a l
 
 ## Usage
 
-1. Choose a content type from the tabs (URL, Text, Email, Phone, SMS, WiFi).
+1. Choose a content type from the tabs (URL, Text, Email, Phone, SMS, WiFi, Contact).
 2. Fill in the fields — the preview updates live as you type.
 3. Adjust the **error correction**, **margin**, and **foreground / background colors** to taste. Keep an eye on the contrast badge.
 4. Export your code:
@@ -74,7 +75,7 @@ Then simply open `index.html` in any modern browser (double-click it, or use a l
 
 - [ ] Logo overlay in the center of the code (with auto error-correction bump)
 - [ ] Rounded / dot module styles and gradient fills
-- [ ] vCard / MeCard contact type
+- [x] vCard / MeCard contact type
 - [ ] Batch generation from a pasted list or CSV
 - [ ] Calendar event (`VEVENT`) and geo-location types
 

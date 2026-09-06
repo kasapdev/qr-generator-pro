@@ -85,6 +85,16 @@
         { id: 'password', type: 'text', label: 'Password', placeholder: 'Network password', half: true },
         { id: 'hidden', type: 'checkbox', label: 'Hidden network' }
       ]
+    },
+    contact: {
+      label: 'Contact card',
+      fields: [
+        { id: 'name', type: 'text', label: 'Full name', placeholder: 'Jane Doe', autofocus: true },
+        { id: 'phone', type: 'tel', label: 'Phone', placeholder: '+1 555 123 4567', half: true },
+        { id: 'email', type: 'email', label: 'Email', placeholder: 'jane@example.com', half: true },
+        { id: 'org', type: 'text', label: 'Organization', placeholder: 'Optional company or title', half: true },
+        { id: 'url', type: 'url', label: 'Website', placeholder: 'Optional website', half: true }
+      ]
     }
   };
 
@@ -185,6 +195,11 @@
     return String(s).replace(/([\\;,:"])/g, '\\$1');
   }
 
+  /* Escape special chars for the MECARD: payload (\ ; , and :) */
+  function mecardEscape(s) {
+    return String(s).replace(/([\\;,:])/g, '\\$1');
+  }
+
   function buildEncoded(vals) {
     var v = vals || {};
     switch (state.type) {
@@ -226,6 +241,21 @@
         out += 'H:' + (hidden ? 'true' : 'false') + ';;';
         return out;
       }
+      case 'contact': {
+        var name = trim(v.name);
+        if (!name) return '';
+        var mc = 'MECARD:N:' + mecardEscape(name) + ';';
+        if (trim(v.phone)) mc += 'TEL:' + trim(v.phone).replace(/\s+/g, '') + ';';
+        if (trim(v.email)) mc += 'EMAIL:' + mecardEscape(trim(v.email)) + ';';
+        if (trim(v.org)) mc += 'ORG:' + mecardEscape(trim(v.org)) + ';';
+        if (trim(v.url)) {
+          var site = trim(v.url);
+          if (!/^[a-z][a-z0-9+.\-]*:/i.test(site)) site = 'https://' + site;
+          mc += 'URL:' + mecardEscape(site) + ';';
+        }
+        mc += ';';
+        return mc;
+      }
       default:
         return '';
     }
@@ -241,6 +271,7 @@
       case 'phone': return trim(v.number) || '—';
       case 'sms': return trim(v.number) || '—';
       case 'wifi': return trim(v.ssid) || '—';
+      case 'contact': return trim(v.name) || '—';
       default: return '—';
     }
   }
